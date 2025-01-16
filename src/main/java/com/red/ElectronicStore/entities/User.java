@@ -32,7 +32,7 @@ public class User {
     @Column(name = "email", length = 150, nullable = false, unique = true)
     private String email;  // User's email, with a maximum length of 150 characters
 
-    @Column(name = "password", length = 10, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;  // User's Password, with a maximum length of 150 characters
 
     @Column(name = "phone_number", length = 15, nullable = true)

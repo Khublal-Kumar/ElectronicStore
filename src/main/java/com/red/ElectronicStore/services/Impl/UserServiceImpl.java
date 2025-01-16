@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -56,7 +57,8 @@ public class UserServiceImpl implements UserService {
 //        // Convert saved User entity back to UserDTO
 //        return mapToDTO(savedUser);
 
-        User user = convertToEntity(userDTO);
+        User user = convertToEntity(userDTO);String randomId = UUID.randomUUID().toString();
+        user.setUserId(randomId);
         User savedUser = userRepository.save(user);
        return convertToDto(savedUser);
 

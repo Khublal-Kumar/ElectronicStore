@@ -74,6 +74,7 @@ public class ProductDTO {
     @NotNull(message = "Featured status is required")
     private Boolean featured;
 
+
     private CategoryDTO category;
 
 }

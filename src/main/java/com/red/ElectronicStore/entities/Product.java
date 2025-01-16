@@ -2,6 +2,7 @@ package com.red.ElectronicStore.entities;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
