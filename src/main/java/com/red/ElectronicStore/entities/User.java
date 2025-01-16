@@ -1,14 +1,13 @@
 package com.red.ElectronicStore.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -52,6 +51,9 @@ public class User {
 
     @Column(name = "img_name", nullable = true)
     private String imageName;  // Timestamp of when the user was last updated
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private List<Order> orders = new ArrayList<>();
 
 
 

@@ -4,19 +4,18 @@ package com.red.ElectronicStore.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "cart_Items")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class CartItem {
-
+@Entity
+@Table(name = "order_item")
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cartItemId;
+    private int orderItemId;
 
     private int quantity;
 
@@ -26,9 +25,7 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
-
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }

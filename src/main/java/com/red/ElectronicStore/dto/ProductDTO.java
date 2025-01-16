@@ -31,8 +31,6 @@ public class ProductDTO {
     @NotBlank(message = "Brand is required")
     private String brand;
 
-
-
     @NotNull(message = "Availability is required")
     private Boolean availability;
 

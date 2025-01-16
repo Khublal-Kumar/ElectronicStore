@@ -141,7 +141,7 @@ public class CartServiceImpl implements CartService {
         List<CartItem> updatedItems = items.stream().map(item -> {
             if (item.getProduct().getId().equals(productId)) {
                 item.setQuantity(quantity);
-                item.setTotalPrice(quantity * product.getPrice().intValue()); // Fix here
+                item.setTotalPrice(quantity * product.getPrice()); // Fix here
                 updated.set(true);
             }
             return item;
@@ -153,7 +153,7 @@ public class CartServiceImpl implements CartService {
         if (!updated.get()) {
             CartItem cartItem = new CartItem();
             cartItem.setQuantity(quantity);
-            cartItem.setTotalPrice(quantity * product.getPrice().intValue()); // Fix here
+            cartItem.setTotalPrice(quantity * product.getPrice()); // Fix here
             cartItem.setProduct(product);
             cartItem.setCart(cart);
 
