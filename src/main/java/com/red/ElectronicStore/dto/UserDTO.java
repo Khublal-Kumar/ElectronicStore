@@ -30,8 +30,10 @@ public class UserDTO {
     @NotBlank(message = "E-mail must be required")
     private String email;
 
+    @Size(min = 2,max = 500,message = "Invalid Length!!!")
+    private String upassword;
 
-    private String password;
+    private String encryptedPassword;
 
     @Size(max=10,message = "Phone no. must be 10 digit Number")
     private String phoneNumber;

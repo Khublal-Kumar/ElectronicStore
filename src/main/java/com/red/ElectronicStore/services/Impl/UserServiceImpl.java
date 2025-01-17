@@ -9,10 +9,13 @@ import com.red.ElectronicStore.repositories.UserRepository;
 import com.red.ElectronicStore.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,6 +28,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -33,32 +39,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
-        // Convert UserDTO to User entity
-//        User user = new User();
-//
-//        String randomId = UUID.randomUUID().toString();
-//        user.setUserId(randomId);
-//        user.setFirstName(userDTO.getFirstName());
-//        user.setLastName(userDTO.getLastName());
-//        user.setEmail(userDTO.getEmail());
-//        user.setPassword(userDTO.getPassword());
-//        user.setPhoneNumber(userDTO.getPhoneNumber());
-//        user.setAddress(userDTO.getAddress());
-//        user.setDateOfBirth(userDTO.getDateOfBirth());
-//        user.setCreatedAt(userDTO.getCreatedAt());
-//        user.setUpdatedAt(userDTO.getUpdatedAt());
-//        user.setImageName(userDTO.getImageName());
-//
-//        // Save the user in the database
-//        User savedUser = userRepository.save(user);
-//
-//
-//
-//        // Convert saved User entity back to UserDTO
-//        return mapToDTO(savedUser);
 
-        User user = convertToEntity(userDTO);String randomId = UUID.randomUUID().toString();
+
+        User user = convertToEntity(userDTO);
+        String randomId = UUID.randomUUID().toString();
         user.setUserId(randomId);
+        user.setEncryptedPassword(passwordEncoder.encode(user.getUpassword()));
         User savedUser = userRepository.save(user);
        return convertToDto(savedUser);
 
@@ -136,7 +122,9 @@ public class UserServiceImpl implements UserService {
             user.setFirstName(updatedUserDTO.getFirstName());
             user.setLastName(updatedUserDTO.getLastName());
             user.setEmail(updatedUserDTO.getEmail());
-            user.setPassword(updatedUserDTO.getPassword());
+//            user.setPassword(updatedUserDTO.getPassword());
+            user.setUpassword(updatedUserDTO.getUpassword());
+            user.setEncryptedPassword(passwordEncoder.encode(updatedUserDTO.getUpassword()));
             user.setPhoneNumber(updatedUserDTO.getPhoneNumber());
             user.setAddress(updatedUserDTO.getAddress());
             user.setDateOfBirth(updatedUserDTO.getDateOfBirth());
@@ -176,4 +164,11 @@ public class UserServiceImpl implements UserService {
     public User convertToEntity(UserDTO userDTO) {
         return mapper.map(userDTO, User.class);
     }
+
+//    @Bean
+//    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
+
+
 }
