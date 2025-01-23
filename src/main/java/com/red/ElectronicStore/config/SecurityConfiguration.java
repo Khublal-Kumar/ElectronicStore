@@ -44,24 +44,18 @@ public class SecurityConfiguration {
 //        return new InMemoryUserDetailsManager(user, user2);
 //    }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for testing
-                .cors(cors -> cors.disable()) // Disable CORS (customize if needed)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll() // Allow login endpoint
-                        .anyRequest().authenticated() // Protect all other endpoints
-                );
 
-        return http.build();
-    }
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(this.userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+
     }
 
 
