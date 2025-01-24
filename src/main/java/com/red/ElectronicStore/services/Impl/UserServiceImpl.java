@@ -2,9 +2,11 @@ package com.red.ElectronicStore.services.Impl;
 
 import com.red.ElectronicStore.dto.PageableResponse;
 import com.red.ElectronicStore.dto.UserDTO;
+import com.red.ElectronicStore.entities.Role;
 import com.red.ElectronicStore.entities.User;
 import com.red.ElectronicStore.exceptions.UserNotFoundException;
 import com.red.ElectronicStore.helper.PageResponseHandler;
+import com.red.ElectronicStore.repositories.RoleRepository;
 import com.red.ElectronicStore.repositories.UserRepository;
 import com.red.ElectronicStore.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -36,6 +39,9 @@ public class UserServiceImpl implements UserService {
     }
     @Autowired
     private ModelMapper mapper;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
@@ -115,6 +121,7 @@ public class UserServiceImpl implements UserService {
         // Find existing user
         Optional<User> userOptional = userRepository.findByUserId(userId);
 
+
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 
@@ -130,6 +137,8 @@ public class UserServiceImpl implements UserService {
             user.setDateOfBirth(updatedUserDTO.getDateOfBirth());
             user.setUpdatedAt(updatedUserDTO.getUpdatedAt());
             user.setImageName(updatedUserDTO.getImageName());
+
+           user.setRoles(updatedUserDTO.getRoles());
 
             // Save updated user
             User updatedUser = userRepository.save(user);

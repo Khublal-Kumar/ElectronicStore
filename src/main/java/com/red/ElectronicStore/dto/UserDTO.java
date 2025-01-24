@@ -1,11 +1,14 @@
 package com.red.ElectronicStore.dto;
 
 
+import com.red.ElectronicStore.entities.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -44,4 +47,5 @@ public class UserDTO {
     private String createdAt;
     private String updatedAt;
     private String imageName;
+    private Set<Role> roles;
 }

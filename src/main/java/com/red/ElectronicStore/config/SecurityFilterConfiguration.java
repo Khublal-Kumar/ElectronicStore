@@ -1,5 +1,6 @@
 package com.red.ElectronicStore.config;
 
+import com.red.ElectronicStore.Enumeration.RoleName;
 import com.red.ElectronicStore.jwt.JwtAuthenticationEntryPoint;
 import com.red.ElectronicStore.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class SecurityFilterConfiguration {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for testing
                 .cors(cors -> cors.disable()) // Disable CORS (customize if needed)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login").permitAll() // Allow login endpoint
+                        .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated())// Protect all other endpoints
                 .exceptionHandling(e->e.authenticationEntryPoint(point))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

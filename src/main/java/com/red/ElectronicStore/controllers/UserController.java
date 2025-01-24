@@ -6,6 +6,7 @@ import com.red.ElectronicStore.exceptions.BadApiRequest;
 import com.red.ElectronicStore.exceptions.UserNotFoundException;
 import com.red.ElectronicStore.helper.ApiResponseMessage;
 import com.red.ElectronicStore.helper.ImageApiResponse;
+import com.red.ElectronicStore.repositories.RoleRepository;
 import com.red.ElectronicStore.services.FileService;
 import com.red.ElectronicStore.services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,6 +44,8 @@ public class UserController {
 
     @Autowired
     public FileService fileService;
+
+
 
     // Create or update user
     @PostMapping
