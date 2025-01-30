@@ -1,6 +1,7 @@
 package com.red.ElectronicStore.services.Impl;
 
 import com.red.ElectronicStore.dto.PageableResponse;
+import com.red.ElectronicStore.dto.RoleDTO;
 import com.red.ElectronicStore.dto.UserDTO;
 import com.red.ElectronicStore.entities.Role;
 import com.red.ElectronicStore.entities.User;
@@ -9,9 +10,9 @@ import com.red.ElectronicStore.helper.PageResponseHandler;
 import com.red.ElectronicStore.repositories.RoleRepository;
 import com.red.ElectronicStore.repositories.UserRepository;
 import com.red.ElectronicStore.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +21,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -51,8 +54,36 @@ public class UserServiceImpl implements UserService {
         String randomId = UUID.randomUUID().toString();
         user.setUserId(randomId);
         user.setEncryptedPassword(passwordEncoder.encode(user.getUpassword()));
+
+        // Handle roles
+        Set<Role> roles = new HashSet<>();
+
+//        Set<Role> roles = new HashSet<>();
+
+        // Handle roles - default to ROLE_USER if none specified
+        if (userDTO.getRoles() == null || userDTO.getRoles().isEmpty()) {
+            // Fetch ROLE_USER from database
+            Role userRole = roleRepository.findByRoleName("ROLE_USER")
+                    .orElseThrow(() -> new RuntimeException("Default role ROLE_USER not found"));
+            roles.add(userRole);
+
+        } else {
+            // Add specified roles
+            for (RoleDTO roleDTO : userDTO.getRoles()) {
+                Role role = roleRepository.findByRoleName(roleDTO.getRoleName())
+                        .orElseThrow(() -> new RuntimeException("Role not found: " ));
+                roles.add(role);
+            }
+        }
+
+        user.setRoles(roles);
+//        System.out.println("*************************");
+        log.info("Role is added too user ");
+
         User savedUser = userRepository.save(user);
-       return convertToDto(savedUser);
+        UserDTO userDTO1 = convertToDto(savedUser);
+
+        return userDTO1;
 
     }
 
@@ -138,7 +169,28 @@ public class UserServiceImpl implements UserService {
             user.setUpdatedAt(updatedUserDTO.getUpdatedAt());
             user.setImageName(updatedUserDTO.getImageName());
 
-           user.setRoles(updatedUserDTO.getRoles());
+//           user.setRoles(updatedUserDTO.getRoleNames());
+
+
+
+            // Handle roles
+            Set<Role> roles = new HashSet<>();
+
+            // Handle roles - default to ROLE_USER if none specified
+            if (updatedUserDTO.getRoles() == null || updatedUserDTO.getRoles().isEmpty()) {
+                // Fetch ROLE_USER from database
+                Role userRole = roleRepository.findByRoleName("ROLE_USER")
+                        .orElseThrow(() -> new RuntimeException("Default role ROLE_USER not found"));
+                roles.add(userRole);
+            } else {
+                // Add specified roles
+                for (RoleDTO roleName : updatedUserDTO.getRoles()) {
+                    Role role = roleRepository.findByRoleName(roleName.getRoleName())
+                            .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+                    roles.add(role);
+                }
+            }
+            user.setRoles(roles);
 
             // Save updated user
             User updatedUser = userRepository.save(user);

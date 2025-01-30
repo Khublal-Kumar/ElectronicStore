@@ -6,6 +6,7 @@ import com.red.ElectronicStore.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,7 +27,8 @@ public class SecurityFilterConfiguration {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for testing
                 .cors(cors -> cors.disable()) // Disable CORS (customize if needed)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/login").permitAll()
+//                        .requestMatchers("/users").hasRole("ADMIN")
                         .anyRequest().authenticated())// Protect all other endpoints
                 .exceptionHandling(e->e.authenticationEntryPoint(point))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

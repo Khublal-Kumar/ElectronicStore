@@ -1,6 +1,7 @@
 package com.red.ElectronicStore.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.red.ElectronicStore.entities.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -47,5 +48,7 @@ public class UserDTO {
     private String createdAt;
     private String updatedAt;
     private String imageName;
-    private Set<Role> roles;
+
+
+    private Set<RoleDTO> roles;
 }
