@@ -28,7 +28,7 @@ public class SecurityFilterConfiguration {
                 .cors(cors -> cors.disable()) // Disable CORS (customize if needed)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,"/login").permitAll()
-//                        .requestMatchers("/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated())// Protect all other endpoints
                 .exceptionHandling(e->e.authenticationEntryPoint(point))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -37,4 +37,24 @@ public class SecurityFilterConfiguration {
 
         return http.build();
     }
+
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(csrf -> csrf.disable())
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+//                        .requestMatchers(HttpMethod.GET, "/users/image/**").permitAll() // If you want public access to images
+//                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasAuthority("ROLE_ADMIN")
+//                        .requestMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF")
+//                        .requestMatchers(HttpMethod.PUT, "/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+//                        .anyRequest().authenticated()
+//                )
+//                .exceptionHandling(e -> e.authenticationEntryPoint(point))
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
 }

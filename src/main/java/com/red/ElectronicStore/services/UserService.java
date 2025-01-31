@@ -31,4 +31,6 @@ public interface UserService {
 
     // Update user details (pass updated UserDTO)
     UserDTO updateUser(String userId, UserDTO updatedUserDTO);
+
+    void clearAllRolesForUser(String userId);
 }

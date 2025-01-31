@@ -1,5 +1,6 @@
 package com.red.ElectronicStore.services.Impl;
 
+import com.red.ElectronicStore.Enumeration.RoleName;
 import com.red.ElectronicStore.dto.PageableResponse;
 import com.red.ElectronicStore.dto.RoleDTO;
 import com.red.ElectronicStore.dto.UserDTO;
@@ -63,14 +64,15 @@ public class UserServiceImpl implements UserService {
         // Handle roles - default to ROLE_USER if none specified
         if (userDTO.getRoles() == null || userDTO.getRoles().isEmpty()) {
             // Fetch ROLE_USER from database
-            Role userRole = roleRepository.findByRoleName("ROLE_USER")
+            Role userRole = roleRepository.findByRoleName(RoleName.USER)
                     .orElseThrow(() -> new RuntimeException("Default role ROLE_USER not found"));
             roles.add(userRole);
 
         } else {
             // Add specified roles
             for (RoleDTO roleDTO : userDTO.getRoles()) {
-                Role role = roleRepository.findByRoleName(roleDTO.getRoleName())
+                RoleName roleName = roleDTO.getRoleName();
+                Role role = roleRepository.findByRoleName(roleName)
                         .orElseThrow(() -> new RuntimeException("Role not found: " ));
                 roles.add(role);
             }
@@ -179,7 +181,7 @@ public class UserServiceImpl implements UserService {
             // Handle roles - default to ROLE_USER if none specified
             if (updatedUserDTO.getRoles() == null || updatedUserDTO.getRoles().isEmpty()) {
                 // Fetch ROLE_USER from database
-                Role userRole = roleRepository.findByRoleName("ROLE_USER")
+                Role userRole = roleRepository.findByRoleName(RoleName.USER)
                         .orElseThrow(() -> new RuntimeException("Default role ROLE_USER not found"));
                 roles.add(userRole);
             } else {
@@ -230,6 +232,17 @@ public class UserServiceImpl implements UserService {
 //    public PasswordEncoder passwordEncoder(){
 //        return new BCryptPasswordEncoder();
 //    }
+    @Override
+    public void clearAllRolesForUser(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        // If using JPA relationships
+        user.getRoles().clear();
+        userRepository.save(user);
+
+
+    }
 
 
 }

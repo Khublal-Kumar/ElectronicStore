@@ -1,5 +1,6 @@
 package com.red.ElectronicStore.dto;
 
+import com.red.ElectronicStore.Enumeration.RoleName;
 import lombok.*;
 
 @Getter
@@ -12,6 +13,6 @@ public class RoleDTO {
 
     private Integer roleId;
 
-    private String roleName;
+    private RoleName roleName;
 
 }

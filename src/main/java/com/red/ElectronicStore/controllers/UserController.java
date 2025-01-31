@@ -2,11 +2,13 @@ package com.red.ElectronicStore.controllers;
 
 import com.red.ElectronicStore.dto.PageableResponse;
 import com.red.ElectronicStore.dto.UserDTO;
+import com.red.ElectronicStore.entities.User;
 import com.red.ElectronicStore.exceptions.BadApiRequest;
 import com.red.ElectronicStore.exceptions.UserNotFoundException;
 import com.red.ElectronicStore.helper.ApiResponseMessage;
 import com.red.ElectronicStore.helper.ImageApiResponse;
 import com.red.ElectronicStore.repositories.RoleRepository;
+import com.red.ElectronicStore.repositories.UserRepository;
 import com.red.ElectronicStore.services.FileService;
 import com.red.ElectronicStore.services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,6 +38,7 @@ public class UserController {
     private  String imageUploadPath;
 
     private final UserService userService;
+
 
     @Autowired
     public UserController(UserService userService) {
@@ -143,7 +146,8 @@ public ResponseEntity<ApiResponseMessage> deleteUserById(@PathVariable String us
                 }
             }
         }
-
+        // Clear user's roles before deletion
+        userService.clearAllRolesForUser(userId); // New role-clearing step
         // Delete the user's details from the database
         userService.deleteUserById(userId);
 
@@ -261,4 +265,7 @@ public ResponseEntity<ApiResponseMessage> deleteUserById(@PathVariable String us
 
 
     }
+
+
+
 }

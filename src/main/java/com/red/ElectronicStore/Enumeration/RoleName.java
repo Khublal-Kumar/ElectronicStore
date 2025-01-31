@@ -4,5 +4,10 @@ public enum RoleName {
     ADMIN,
     USER,
     MANAGER,
-    MODERATOR
+    MODERATOR;
+
+    @Override
+    public String toString() {
+        return this.name().toUpperCase();
+    }
 }
