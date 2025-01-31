@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         // Handle roles - default to ROLE_USER if none specified
         if (userDTO.getRoles() == null || userDTO.getRoles().isEmpty()) {
             // Fetch ROLE_USER from database
-            Role userRole = roleRepository.findByRoleName(RoleName.USER)
+            Role userRole = roleRepository.findByRoleName(RoleName.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Default role ROLE_USER not found"));
             roles.add(userRole);
 
@@ -181,7 +181,7 @@ public class UserServiceImpl implements UserService {
             // Handle roles - default to ROLE_USER if none specified
             if (updatedUserDTO.getRoles() == null || updatedUserDTO.getRoles().isEmpty()) {
                 // Fetch ROLE_USER from database
-                Role userRole = roleRepository.findByRoleName(RoleName.USER)
+                Role userRole = roleRepository.findByRoleName(RoleName.ROLE_USER)
                         .orElseThrow(() -> new RuntimeException("Default role ROLE_USER not found"));
                 roles.add(userRole);
             } else {

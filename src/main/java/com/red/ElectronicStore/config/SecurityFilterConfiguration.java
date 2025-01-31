@@ -29,6 +29,8 @@ public class SecurityFilterConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,"/login").permitAll()
                         .requestMatchers(HttpMethod.DELETE,"/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasAuthority("ROLE_USER")
                         .anyRequest().authenticated())// Protect all other endpoints
                 .exceptionHandling(e->e.authenticationEntryPoint(point))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

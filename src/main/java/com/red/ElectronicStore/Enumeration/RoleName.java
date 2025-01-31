@@ -1,10 +1,10 @@
 package com.red.ElectronicStore.Enumeration;
 
 public enum RoleName {
-    ADMIN,
-    USER,
-    MANAGER,
-    MODERATOR;
+    ROLE_ADMIN,
+    ROLE_USER,
+    ROLE_MANAGER,
+    ROLE_MODERATOR;
 
     @Override
     public String toString() {

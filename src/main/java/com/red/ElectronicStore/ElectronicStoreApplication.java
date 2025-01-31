@@ -32,22 +32,22 @@ public class ElectronicStoreApplication {
 			if (roleRepository.count() == 0) {
 				Role userRole = Role.builder()
 						.roleId(1)
-						.roleName(RoleName.USER)
+						.roleName(RoleName.ROLE_USER)
 						.build();
 
 				Role managerRole = Role.builder()
 						.roleId(2)
-						.roleName(RoleName.MANAGER)
+						.roleName(RoleName.ROLE_MANAGER)
 						.build();
 
 				Role moderatorRole = Role.builder()
 						.roleId(3)
-						.roleName(RoleName.MODERATOR)
+						.roleName(RoleName.ROLE_MODERATOR)
 						.build();
 
 				Role adminRole = Role.builder()
 						.roleId(4)
-						.roleName(RoleName.ADMIN)
+						.roleName(RoleName.ROLE_ADMIN)
 						.build();
 
 				roleRepository.save(userRole);
