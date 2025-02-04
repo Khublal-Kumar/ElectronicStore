@@ -25,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.util.UUID;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Electronic Store API", version = "1.0", description = "API Documentation"))
+@OpenAPIDefinition(info = @Info(title = "Electronic Store API", version = "1.0", description = "API Documentation of Electronic Store"))
 public class ElectronicStoreApplication {
 
 	public static void main(String[] args) {
@@ -34,9 +34,6 @@ public class ElectronicStoreApplication {
 
 	@Autowired
 	private RoleRepository roleRepository;  // Non-static
-
-
-
 
 
 
